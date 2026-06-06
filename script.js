@@ -178,7 +178,7 @@ const filterBtns = document.querySelectorAll(".filter-btn");
 
 const menuSearch = document.getElementById("menu-search");
 
-function filterMenuItems(filter = "all", searchText = "") {
+function filterMenuItems(filter = "all", searchText = "", diet = "all") {
   const menuItems = document.querySelectorAll(".menu-item");
 
   let visibleCount = 0;
@@ -187,12 +187,14 @@ function filterMenuItems(filter = "all", searchText = "") {
     const itemName = item.querySelector("h3").textContent.toLowerCase();
 
     const category = item.dataset.category;
+    const type = item.dataset.type;
 
     const matchesSearch = itemName.includes(searchText.toLowerCase());
 
     const matchesFilter = filter === "all" || category === filter;
+    const matchesDiet = diet === "all" || type === diet;
 
-    if (matchesSearch && matchesFilter) {
+    if (matchesSearch && matchesFilter && matchesDiet) {
       item.classList.remove("hidden-item");
 
       visibleCount++;
@@ -219,23 +221,42 @@ function filterMenuItems(filter = "all", searchText = "") {
 }
 
 // Filter buttons
+function getActiveFilter() {
+  return document.querySelector(".filter-btn.active").dataset.filter;
+}
+function getActiveDiet() {
+   return document.querySelector(".diet-btn.active").dataset.type;
+}
+
 filterBtns.forEach((btn) => {
   btn.addEventListener("click", () => {
     filterBtns.forEach((b) => b.classList.remove("active"));
 
     btn.classList.add("active");
-
-    filterMenuItems(btn.dataset.filter, menuSearch.value);
+    filterMenuItems(btn.dataset.filter, menuSearch.value, getActiveDiet());
   });
 });
 
 // Search
 menuSearch.addEventListener("input", () => {
   const activeFilter =
-    document.querySelector(".filter-btn.active").dataset.filter;
-
-  filterMenuItems(activeFilter, menuSearch.value);
+   filterMenuItems(getActiveFilter(), menuSearch.value, getActiveDiet());
 });
+ 
+    
+//adding diet filter
+const dietBtns = document.querySelectorAll(".diet-btn");
+
+dietBtns.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    dietBtns.forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+
+   
+     filterMenuItems(getActiveFilter(), menuSearch.value, btn.dataset.type);
+  });
+});
+
 
 // Smooth scroll for navigation links
 function smoothScroll(e) {
