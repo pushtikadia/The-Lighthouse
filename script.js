@@ -71,8 +71,6 @@ function updateAvailableTimes() {
   });
 }
 
-
-
 // ── Navigation scroll effect ──
 function handleScroll() {
   const currentScroll = window.scrollY;
@@ -148,7 +146,6 @@ function switchMenuTab(e) {
   });
 }
 
-//
 // Theme Toggle
 const savedTheme = localStorage.getItem("theme");
 
@@ -236,8 +233,6 @@ filterBtns.forEach((btn) => {
 });
 
 // FIX #2 — Removed duplicate menuSearch 'input' listener (was calling filterMenuItems with wrong/missing args)
-
- 
 
 // Smooth scroll for navigation links
 function smoothScroll(e) {
@@ -645,6 +640,13 @@ document.addEventListener('click', function (e) {
   }
 });
 
+// ── Display total menu category count ──
+function displayCategoryCount() {
+  const categoryBtns = document.querySelectorAll('.filter-btn:not([data-filter="all"])');
+  const countEl = document.getElementById('menu-category-count');
+  if (countEl) countEl.textContent = categoryBtns.length + ' Menu Categories Available';
+}
+
 // ── Initialise ───
 document.addEventListener('DOMContentLoaded', function () {
   handleScroll();
@@ -652,6 +654,7 @@ document.addEventListener('DOMContentLoaded', function () {
   updateAvailableTimes();
   renderReviews();
   handleCardFlip();
+  displayCategoryCount();
 });
 
 // Mobile flip style
@@ -883,3 +886,10 @@ document.addEventListener('DOMContentLoaded', () => {
 const mobileStyle = document.createElement('style');
 mobileStyle.textContent = styleForMobile;
 document.head.appendChild(mobileStyle);
+
+// Automatically update copyright year
+const currentYear = document.getElementById("current-year");
+
+if (currentYear) {
+  currentYear.textContent = new Date().getFullYear();
+}
