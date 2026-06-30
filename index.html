@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>The Lighthouse | Fine Dining Restaurant</title>
+    <title data-i18n="hero.title">The Lighthouse | Fine Dining Restaurant</title>
     <meta
       name="description"
       content="Experience culinary excellence at The Lighthouse. Reservations available for breakfast, lunch, and dinner."
@@ -15,49 +15,65 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next/23.11.5/i18next.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-http-backend/2.5.2/i18nextHttpBackend.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/i18next-browser-languagedetector/8.0.0/i18nextBrowserLanguageDetector.min.js" defer></script>
   </head>
   <body>
 
-    <!-- Navigation -->
     <nav class="nav" id="nav">
       <div class="nav-container">
-        <a href="#home" class="nav-logo">The Lighthouse</a>
+        <a href="#home" class="nav-logo" data-i18n="nav.logo">The Lighthouse</a>
         <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
           <span></span>
           <span></span>
           <span></span>
         </button>
         <ul class="nav-menu" id="navMenu">
-          <li><a href="#home" class="nav-link active" data-section="home">Home</a></li>
-          <li><a href="#about" class="nav-link" data-section="about">About</a></li>
-          <li><a href="#chef" class="nav-link" data-section="chef">Chef's Picks</a></li>
-          <li><a href="#menu" class="nav-link" data-section="menu">Menu</a></li>
-          <li><a href="#reservation" class="nav-link" data-section="reservation">Reservations</a></li>
-          <li><a href="#reviews" class="nav-link" data-section="reviews">Reviews</a></li>
-          <li><a href="#location" class="nav-link" data-section="location">Location</a></li>
+          <li><a href="#home" class="nav-link active" data-section="home" data-i18n="nav.home">Home</a></li>
+          <li><a href="#about" class="nav-link" data-section="about" data-i18n="nav.about">About</a></li>
+          <li><a href="#chef" class="nav-link" data-section="chef" data-i18n="nav.chef">Chef's Picks</a></li>
+          <li><a href="#menu" class="nav-link" data-section="menu" data-i18n="nav.menu">Menu</a></li>
+          <li><a href="#reservation" class="nav-link" data-section="reservation" data-i18n="nav.reservation">Reservations</a></li>
+          <li><a href="#reviews" class="nav-link" data-section="reviews" data-i18n="nav.reviews">Reviews</a></li>
+          <li><a href="#location" class="nav-link" data-section="location" data-i18n="nav.location">Location</a></li>
+          <li class="mobile-only nav-lang-item">
+            <div class="language-selector-container">
+              <select class="language-select" aria-label="Select Language">
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+                <option value="gu">ગુજરાતી</option>
+              </select>
+            </div>
+          </li>
         </ul>
         <button id="themeToggle" class="theme-toggle" aria-label="Toggle Theme">&#9790;</button>
         <a href="#reservation" class="nav-cta">Book a Table</a>
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
       <div class="hero-bg" id="heroBg">
-        <img src="./images/hero-restaurant.jpg" alt="The Lighthouse Restaurant Interior" loading="lazy" />
+        <img
+          src="./images/hero-restaurant.jpg"
+          alt="The Lighthouse Restaurant Interior"
+        />
       </div>
       <div class="hero-overlay"></div>
       <div class="hero-content">
-        <span class="hero-tagline">Est. 1987</span>
-        <h1 class="hero-title">The Lighthouse</h1>
-        <p class="hero-subtitle">Where culinary artistry meets timeless elegance</p>
+        <span class="hero-tagline" data-i18n="hero.tagline">Est. 1987</span>
+        <h1 class="hero-title" data-i18n="hero.title">The Lighthouse</h1>
+        <p class="hero-subtitle" data-i18n="hero.subtitle">Where culinary artistry meets timeless elegance</p>
         <div class="hero-buttons">
-          <a href="#menu" class="btn btn-primary">Explore Menu</a>
-          <a href="#reservation" class="btn btn-outline">Reserve Table</a>
+          <a href="#menu" class="btn btn-primary" data-i18n="hero.explore_menu">Explore Menu</a>
+          <a href="#reservation" class="btn btn-outline" data-i18n="hero.reserve_table">Reserve Table</a>
         </div>
+        <div class="chef-recommendation">
+  <p><strong>🍽️ Chef's Recommendation:</strong> <span id="chefRecommendation"></span></p>
+</div>
         <div class="hero-scroll">
-          <span>Scroll To Discover</span>
-          <span class="clicktoscroll">Click To Scroll</span>
+          <span data-i18n="hero.scroll_discover">Scroll To Discover</span>
+          <span class="clicktoscroll" data-i18n="hero.click_scroll">Click To Scroll</span>
           <div class="scroll-indicator"></div>
           <svg class="scroll-arrow" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
             <path d="M12 5v14M5 12l7 7 7-7" />
@@ -66,22 +82,21 @@
       </div>
     </section>
 
-    <!-- About Section -->
     <section class="about" id="about">
       <div class="container">
         <div class="about-grid">
           <div class="about-image">
-            <img src="./images/chef.jpg" alt="Our Chef at Work" loading="lazy" />
+            <img src="./images/chef.jpg" alt="Our Chef at Work" loading="lazy"  />
           </div>
           <div class="about-content">
-            <span class="section-label">Our Story</span>
-            <h2 class="section-title">A Legacy of Flavor</h2>
-            <p class="about-text">
+            <span class="section-label" data-i18n="about.story">Our Story</span>
+            <h2 class="section-title" data-i18n="about.title">A Legacy of Flavor</h2>
+            <p class="about-text" data-i18n="about.text_1">
               For over three decades, The Lighthouse has been a beacon of culinary excellence.
               Our chef combines classical techniques with modern innovation, sourcing only the
               finest seasonal ingredients from local farms and trusted suppliers.
             </p>
-            <p class="about-text">
+            <p class="about-text" data-i18n="about.text_2">
               Every dish tells a story, every meal creates a memory. We invite you to experience
               the art of fine dining in an atmosphere of warmth and sophistication.
             </p>
@@ -90,20 +105,24 @@
       </div>
     </section>
 
-    <!-- Chef's Picks Section -->
     <section class="chef-section" id="chef">
       <div class="container">
         <div class="section-header">
-          <span class="section-label">Chef's recommendations</span>
+          <span class="section-label" data-i18n="chef_picks.label">Chef's recommendations</span>
         </div>
         <div class="chef-grid">
 
           <div class="menu-item" data-category="breakfast">
             <div class="food-card">
-              <img src="./images/Chicken_Keema_Dosa.jpg" alt="Chicken Keema Dosa" class="food-image" />
+              <img
+                src="./images/Chicken_Keema_Dosa.jpg"
+                alt="Chicken Keema Dosa"
+                class="food-image"
+                loading="lazy"
+              />
               <div class="food-content">
                 <div class="menu-item-header">
-                  <h3>Chicken Keema Dosa</h3>
+                  <h3 data-i18n="menu.items.chicken_keema_dosa.name">Chicken Keema Dosa</h3>
                   <span class="menu-price">₹240</span>
                 </div>
 
@@ -116,14 +135,19 @@
 
           <div class="menu-item" data-category="lunch">
             <div class="food-card">
-              <img src="./images/Paneer_Butter_Masala.jpg" alt="Paneer Butter Masala" class="food-image" />
+              <img
+                src="./images/Paneer_Butter_Masala.jpg"
+                alt="Paneer Butter Masala"
+                class="food-image"
+                loading="lazy"
+              />
               <div class="food-content">
                 <div class="menu-item-header">
-                  <h3>Paneer Butter Masala</h3>
+                  <h3 data-i18n="menu.items.paneer_butter_masala.name">Paneer Butter Masala</h3>
                   <span class="menu-price">₹280</span>
                 </div>
-                <span class="food-tag veg">Veg</span>
-                <p>Rich creamy paneer curry served with butter naan</p>
+                <span class="food-tag veg" data-i18n="menu.tags.veg">Veg</span>
+                <p data-i18n="menu.items.paneer_butter_masala.desc">Rich creamy paneer curry served with butter naan</p>
               </div>
             </div>
           </div>
@@ -132,36 +156,39 @@
       </div>
     </section>
 
-    <!-- Menu Section -->
     <section class="menu-section" id="menu">
       <div class="container">
         <div class="section-header">
           <span class="section-label">Culinary Offerings</span>
           <h2 class="section-title">Our Menu</h2>
+      <p id="menu-category-count" class="category-count"></p>
+      <button id="downloadMenuPDF" class="btn btn-primary" style="margin-top: 20px;">
+        📄 Download Full Menu (PDF)
+      </button>
+          <span class="section-label" data-i18n="menu.label">Culinary Offerings</span>
+          <h2 class="section-title" data-i18n="menu.title">Our Menu</h2>
         </div>
 
-        <!-- Menu Search + Filters -->
         <div class="menu-controls">
-          <label for="menu-search" class="sr-only">Search Menu</label>
-          <input type="text" id="menu-search" placeholder="Search dishes..." class="menu-search" />
+          <label for="menu-search" class="sr-only" data-i18n="menu.search_placeholder">Search Menu</label>
+          <input type="text" id="menu-search" placeholder="Search dishes..." class="menu-search" data-i18n-placeholder="menu.search_placeholder" />
           <div class="menu-filters">
-            <button class="filter-btn active" data-filter="all">All</button>
-            <button class="filter-btn" data-filter="breakfast">Breakfast</button>
-            <button class="filter-btn" data-filter="lunch">Lunch</button>
-            <button class="filter-btn" data-filter="dinner">Dinner</button>
-            <button class="filter-btn" data-filter="desserts">Desserts</button>
-            <button class="filter-btn" data-filter="drinks">Drinks</button>
+            <button class="filter-btn active" data-filter="all" data-i18n="menu.filter_all">All</button>
+            <button class="filter-btn" data-filter="breakfast" data-i18n="menu.filter_breakfast">Breakfast</button>
+            <button class="filter-btn" data-filter="lunch" data-i18n="menu.filter_lunch">Lunch</button>
+            <button class="filter-btn" data-filter="dinner" data-i18n="menu.filter_dinner">Dinner</button>
+            <button class="filter-btn" data-filter="desserts" data-i18n="menu.filter_desserts">Desserts</button>
+            <button class="filter-btn" data-filter="drinks" data-i18n="menu.filter_drinks">Drinks</button>
           </div>
         </div>
 
-        <!-- Veg / Non-Veg Filter Toggle -->
         <div class="diet-filter" id="dietFilter">
-          <button class="diet-btn active" data-diet="all">All Items</button>
+          <button class="diet-btn active" data-diet="all" data-i18n="menu.diet_all">All Items</button>
           <button class="diet-btn veg" data-diet="veg">
-            <span class="diet-dot veg-dot"></span> Veg
+            <span class="diet-dot veg-dot"></span> <span data-i18n="menu.diet_veg">Veg</span>
           </button>
           <button class="diet-btn non-veg" data-diet="non-veg">
-            <span class="diet-dot non-veg-dot"></span> Non-Veg
+            <span class="diet-dot non-veg-dot"></span> <span data-i18n="menu.diet_nonveg">Non-Veg</span>
           </button>
         </div>
 <section class="menu-section" id="menu">
@@ -189,7 +216,6 @@
       </div>
     </div>
 
-        <!-- Menu Content -->
         <div class="menu-content menu-panel active">
           <div class="menu-items">
             <!-- Breakfast -->
