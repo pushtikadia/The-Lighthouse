@@ -200,7 +200,8 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupThemeToggle() {
     if (!themeToggle) return;
 
-    const savedTheme = localStorage.getItem("theme");
+    let savedTheme = null;
+    try { savedTheme = localStorage.getItem("theme"); } catch (e) {}
     const isLightOnLoad = savedTheme === "light";
     
     document.body.classList.toggle("light-theme", isLightOnLoad);
@@ -211,7 +212,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     themeToggle.addEventListener("click", () => {
       const isLight = document.body.classList.toggle("light-theme");
-      localStorage.setItem("theme", isLight ? "light" : "dark");
+      try { localStorage.setItem("theme", isLight ? "light" : "dark"); } catch (e) {}
       themeToggle.textContent = isLight ? "\u2600" : "\u263E";
       
       // Swap daytime/nighttime images dynamically
