@@ -451,6 +451,7 @@ async function handleFormSubmit(e) {
 
   const emailInput = document.getElementById("email");
   const phoneInput = document.getElementById("phone");
+  const selectedTableInput = document.getElementById("selected-table");
 
   if (emailInput && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(emailInput.value.trim())) {
     addError(emailInput, typeof i18next !== 'undefined' && i18next.t ? i18next.t('reservation.email_error') : "Please enter a valid email address.");
@@ -462,6 +463,14 @@ async function handleFormSubmit(e) {
     isValid = false;
   }
 
+  if (selectedTableInput && !selectedTableInput.value) {
+    const mapContainer = document.querySelector(".seating-map-container");
+    if (mapContainer) {
+      addError(mapContainer, typeof i18next !== 'undefined' && i18next.t ? i18next.t('reservation.table_error') : "Please select an available table on the map.");
+      isValid = false;
+    }
+  }
+
   if (!isValid) return;
 
   const submitBtn = reservationForm.querySelector('button[type="submit"]');
@@ -471,6 +480,8 @@ async function handleFormSubmit(e) {
   const timeVal = timeSelect?.value;
   const guestsVal = document.getElementById('guests')?.value;
   const requestsVal = document.getElementById('requests')?.value || '';
+  const selectedZone = document.getElementById('selected-zone')?.value || 'main';
+  const selectedTable = selectedTableInput?.value || '';
 
   const formData = {
     guest_name: document.getElementById('name')?.value.trim() || '',
@@ -479,7 +490,7 @@ async function handleFormSubmit(e) {
     guest_count: guestsVal,
     booking_date: formatBookingDate(dateVal),
     booking_time: formatBookingTime(timeVal),
-    special_requests: requestsVal.trim() || 'None',
+    special_requests: `[Zone: ${selectedZone.toUpperCase()}, Table: ${selectedTable}] ${requestsVal.trim()}`.trim(),
     restaurant_name: 'The Lighthouse',
     restaurant_phone: '(555) 123-4567',
     restaurant_email: 'reservations@thelighthouse.com',
@@ -495,11 +506,11 @@ async function handleFormSubmit(e) {
         date: dateVal,
         time: timeVal,
         guests: guestsVal,
-        specialRequests: requestsVal
+        specialRequests: formData.special_requests
       };
       const result = await reservationAPI.createReservation(apiData);
       if (result.success) {
-        showReservationToast('success', 'Reservation confirmed! Check your email for details.');
+        showReservationToast('success', `Reservation confirmed for ${selectedTable}! Check your email for details.`);
         reservationForm.reset();
         updateAvailableTimes();
         submitBtn.textContent = originalText;
@@ -514,7 +525,7 @@ async function handleFormSubmit(e) {
   // Fallback to EmailJS or Demo mode
   if (EMAILJS_CONFIG.publicKey === 'YOUR_PUBLIC_KEY' || EMAILJS_CONFIG.publicKey === 'abc123XYZ') {
     await new Promise(r => setTimeout(r, 1200));
-    showReservationToast('success', `Thank you, ${formData.guest_name}! We've registered your request for ${formData.guest_count} guest(s) on ${formData.booking_date} at ${formData.booking_time}.`);
+    showReservationToast('success', `Thank you, ${formData.guest_name}! We've registered your request for ${formData.guest_count} guest(s) at ${selectedTable} on ${formData.booking_date} at ${formData.booking_time}.`);
     reservationForm.reset();
     updateAvailableTimes();
     submitBtn.textContent = originalText;
@@ -523,7 +534,7 @@ async function handleFormSubmit(e) {
     try {
       await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.guestTemplateId, formData);
       await emailjs.send(EMAILJS_CONFIG.serviceId, EMAILJS_CONFIG.adminTemplateId, formData);
-      showReservationToast('success', `Thank you, ${formData.guest_name}! A confirmation has been sent to ${formData.guest_email}.`);
+      showReservationToast('success', `Thank you, ${formData.guest_name}! A confirmation for ${selectedTable} has been sent to ${formData.guest_email}.`);
       reservationForm.reset();
       updateAvailableTimes();
     } catch (err) {
@@ -1061,6 +1072,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initSkeletonLoaders();
   displayCategoryCount();
   updateOpenStatusBadge();
+  setupSeatingMap();
 
   if (typeof i18next !== 'undefined') {
     i18next
@@ -1147,4 +1159,82 @@ if (menuSearch) {
 const currentYear = document.getElementById("current-year");
 if (currentYear) {
   currentYear.textContent = new Date().getFullYear();
+}
+
+// =============================================
+// Feature 1: Seating Zone Map Selector
+// =============================================
+function setupSeatingMap() {
+  const zoneCards = document.querySelectorAll(".zone-card");
+  const seatingMap = document.getElementById("seating-map");
+  const selectedZoneInput = document.getElementById("selected-zone");
+  const selectedTableInput = document.getElementById("selected-table");
+
+  if (!zoneCards.length || !seatingMap) return;
+
+  function renderSeatingMap() {
+    const zone = selectedZoneInput.value;
+    const dateVal = dateInput?.value || "today";
+    const timeVal = timeSelect?.value || "18:00";
+    
+    seatingMap.innerHTML = "";
+    selectedTableInput.value = "";
+
+    for (let t = 1; t <= 10; t++) {
+      const tableBtn = document.createElement("button");
+      tableBtn.type = "button";
+      tableBtn.className = "seating-table";
+      
+      let capacity = 2;
+      if (t % 3 === 0) capacity = 4;
+      else if (t === 10) capacity = 6;
+
+      tableBtn.innerHTML = `T${t} <span>${capacity} Seats</span>`;
+      
+      const seed = dateVal.replace(/-/g, "") + timeVal.replace(/:/g, "") + zone + t;
+      let hash = 0;
+      for (let i = 0; i < seed.length; i++) {
+        hash = seed.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      const isReserved = Math.abs(hash) % 3 === 0;
+
+      if (isReserved) {
+        tableBtn.classList.add("reserved");
+        tableBtn.disabled = true;
+      } else {
+        tableBtn.classList.add("available");
+        tableBtn.addEventListener("click", () => {
+          document.querySelectorAll(".seating-table").forEach(btn => btn.classList.remove("selected"));
+          tableBtn.classList.add("selected");
+          selectedTableInput.value = `Table ${t} (${zone.toUpperCase()})`;
+        });
+      }
+
+      seatingMap.appendChild(tableBtn);
+    }
+  }
+
+  zoneCards.forEach(card => {
+    card.addEventListener("click", () => {
+      zoneCards.forEach(c => c.classList.remove("active"));
+      card.classList.add("active");
+      selectedZoneInput.value = card.dataset.zone;
+      renderSeatingMap();
+    });
+  });
+
+  dateInput?.addEventListener("change", renderSeatingMap);
+  timeSelect?.addEventListener("change", renderSeatingMap);
+
+  if (reservationForm) {
+    reservationForm.addEventListener("reset", () => {
+      zoneCards.forEach(c => c.classList.remove("active"));
+      const mainZoneCard = document.querySelector('.zone-card[data-zone="main"]');
+      if (mainZoneCard) mainZoneCard.classList.add("active");
+      selectedZoneInput.value = "main";
+      setTimeout(renderSeatingMap, 0);
+    });
+  }
+
+  renderSeatingMap();
 }

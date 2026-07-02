@@ -836,11 +836,49 @@
                 </select>
               </div>
             </div>
-            <div class="form-group full-width">
-              <label for="requests" data-i18n="reservation.requests">Special Requests</label>
-              <textarea id="requests" name="requests" rows="4"
-                placeholder="Dietary restrictions, special occasions, seating preferences..." data-i18n-placeholder="reservation.requests_placeholder"></textarea>
-            </div>
+             <div class="form-group full-width">
+               <label data-i18n="reservation.select_zone">Select Dining Zone</label>
+               <div class="dining-zones" id="dining-zones">
+                 <div class="zone-card active" data-zone="main">
+                   <div class="zone-name">Main Dining Hall</div>
+                   <div class="zone-desc">Elegant indoor setting, live acoustic music</div>
+                 </div>
+                 <div class="zone-card" data-zone="terrace">
+                   <div class="zone-name">Ocean Breeze Terrace</div>
+                   <div class="zone-desc">Outdoor seating with panoramic sunset sea views</div>
+                 </div>
+                 <div class="zone-card" data-zone="alcove">
+                   <div class="zone-name">Private Alcoves</div>
+                   <div class="zone-desc">Secluded intimate booths, romantic lighting</div>
+                 </div>
+                 <div class="zone-card" data-zone="bar">
+                   <div class="zone-name">Chef's Bar Counter</div>
+                   <div class="zone-desc">High-top seating overlooking the open kitchen</div>
+                 </div>
+               </div>
+               <input type="hidden" id="selected-zone" name="zone" value="main" />
+             </div>
+
+             <div class="form-group full-width">
+               <label data-i18n="reservation.select_table">Available Tables (Click to select)</label>
+               <div class="seating-map-container">
+                 <div class="seating-map" id="seating-map">
+                   <!-- Dynamically populated tables -->
+                 </div>
+                 <div class="seating-legend">
+                   <span class="legend-item"><span class="legend-dot available"></span> Available</span>
+                   <span class="legend-item"><span class="legend-dot reserved"></span> Reserved</span>
+                   <span class="legend-item"><span class="legend-dot selected"></span> Selected</span>
+                 </div>
+               </div>
+               <input type="hidden" id="selected-table" name="table" value="" />
+             </div>
+
+             <div class="form-group full-width">
+               <label for="requests" data-i18n="reservation.requests">Special Requests</label>
+               <textarea id="requests" name="requests" rows="4"
+                 placeholder="Dietary restrictions, special occasions, seating preferences..." data-i18n-placeholder="reservation.requests_placeholder"></textarea>
+             </div>
             <button type="submit" class="btn btn-primary btn-full" data-i18n="reservation.submit">Request Reservation</button>
             <p class="form-note" data-i18n="reservation.note">You will receive a confirmation email within 24 hours.</p>
           </form>
