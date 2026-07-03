@@ -239,6 +239,14 @@ function setupThemeToggle() {
 function handleScroll() {
   const currentScroll = window.scrollY;
 
+  // Scroll Progress Bar Update
+  const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = totalHeight > 0 ? (currentScroll / totalHeight) * 100 : 0;
+  const progressBar = document.getElementById("scrollProgressBar");
+  if (progressBar) {
+    progressBar.style.width = `${progress}%`;
+  }
+
   if (nav) {
     nav.classList.toggle("scrolled", currentScroll > 50);
   }
