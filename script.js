@@ -224,13 +224,11 @@ function setupThemeToggle() {
   const isLightOnLoad = savedTheme === "light";
   
   document.body.classList.toggle("light-theme", isLightOnLoad);
-  themeToggle.textContent = isLightOnLoad ? "☀️" : "🌙";
   updateThemeImages(isLightOnLoad);
 
   themeToggle.addEventListener("click", () => {
     const isLight = document.body.classList.toggle("light-theme");
     try { localStorage.setItem("theme", isLight ? "light" : "dark"); } catch (e) {}
-    themeToggle.textContent = isLight ? "☀️" : "🌙";
     updateThemeImages(isLight);
   });
 }
