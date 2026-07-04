@@ -11,7 +11,9 @@
     "reservation": "Reservations",
     "reviews": "Reviews",
     "location": "Location",
-    "book_table": "Book a Table"
+    "book_table": "Book a Table",
+    "giftcards": "Gift Cards",
+    "loyalty": "Lighthouse Club"
   },
   "hero": {
     "tagline": "Est. 1987",
@@ -274,6 +276,22 @@
     "contact": "Contact",
     "phone": "Phone:",
     "email": "Email:"
+  },
+  "giftcards": {
+    "label": "Luxury Gifting",
+    "title": "Gift Cards & Vouchers",
+    "subtitle": "Share the gift of an exceptional dining experience at The Lighthouse",
+    "select_value": "Select Voucher Value",
+    "select_theme": "Select Design Theme",
+    "recipient_name": "Recipient Name",
+    "sender_name": "Your Name",
+    "personal_message": "Personal Message",
+    "purchase_btn": "Purchase Gift Card"
+  },
+  "loyalty": {
+    "label": "Exclusive Club",
+    "title": "The Lighthouse Club",
+    "subtitle": "Join our premium club to earn points on reservations and reviews, and unlock exclusive dining rewards."
   },
   "footer": {
     "desc": "Experience timeless fine dining with handcrafted dishes, luxury ambiance, and unforgettable moments.",
